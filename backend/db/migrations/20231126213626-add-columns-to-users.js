@@ -3,9 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 
 let options = {};
+options.tableName = 'Users';
+
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
-  options.tableName = 'Users';
 }
 
 module.exports = {
