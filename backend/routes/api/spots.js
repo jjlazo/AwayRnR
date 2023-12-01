@@ -6,7 +6,7 @@ const { check } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { Spot, Review, SpotImage } = require('../../db/models')
+const { Spot, Review, SpotImage, User } = require('../../db/models')
 
 router.get('/', async (req, res) => {
     const Spots = await Spot.findAll({
@@ -86,10 +86,13 @@ router.get(
 router.get('/:spotId', async (req, res) => {
     const { spotId } = req.params;
     const spotById = await Spot.findOne({
-        id: spotId,
+        where: {
+            id: spotId
+        },
         include: [
             { model: SpotImage },
-            { model: Review, attributes: ['stars'] }
+            { model: Review, attributes: ['stars'] },
+            { model: User, attributes: ['id', 'firstName', 'lastName'] }
         ],
     });
 
@@ -102,7 +105,9 @@ router.get('/:spotId', async (req, res) => {
 
     const starRating = totalStars / totalReviews;
     payload.avgRating = starRating;
+    payload.Owner = payload.User;
 
+    delete payload.User;
     delete payload.Reviews;
 
     res.json(payload);
