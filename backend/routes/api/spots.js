@@ -96,7 +96,11 @@ router.get('/:spotId', async (req, res) => {
         ],
     });
 
-    console.log({ spotById });
+    // console.log({ spotById });
+    if (!spotById) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+    };
+
     const payload = spotById.toJSON();
     const totalStars = payload.Reviews.reduce((total, review) => {
         return total += review.stars
