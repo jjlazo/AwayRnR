@@ -86,7 +86,9 @@ router.get(
 router.get('/:spotId', async (req, res) => {
     const { spotId } = req.params;
     const spotById = await Spot.findOne({
-        id: spotId,
+        where: {
+            id: spotId
+        },
         include: [
             { model: SpotImage },
             { model: Review, attributes: ['stars'] },
