@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
         // console.log({ previewImageUrl });
 
         const starRating = totalStars / totalReviews;
-        spot.avgRating = starRating;
+        spot.avgRating = starRating || 'No rating available';
         spot.previewImage = previewImageUrl;
 
         // console.log({ starRating });
@@ -108,7 +108,7 @@ router.get('/:spotId', async (req, res) => {
     const totalReviews = payload.Reviews.reduce((acc, review) => { return acc += 1 }, 0);
 
     const starRating = totalStars / totalReviews;
-    payload.avgRating = starRating;
+    payload.avgRating = starRating || 'No rating available';
     payload.Owner = payload.User;
 
     delete payload.User;
