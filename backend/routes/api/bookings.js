@@ -157,6 +157,9 @@ router.put(
             where: {
                 id: bookingId,
                 userId: user.id
+            },
+            attributes: {
+                include: ['createdAt', 'updatedAt']
             }
         });
 
@@ -169,7 +172,15 @@ router.put(
 
         await currBooking.save();
 
-        return res.json(currBooking)
+        return res.json({
+            id: currBooking.id,
+            spotId: currBooking.spotId,
+            userId: currBooking.userId,
+            startDate: currBooking.startDate,
+            endDate: currBooking.endDate,
+            updatedAt: currBooking.updatedAt,
+            createdAt: currBooking.createdAt
+        })
 
     }
 );

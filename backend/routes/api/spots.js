@@ -427,7 +427,7 @@ router.get(
             where: {
                 id: spotId
             },
-            attributes: ['id']
+            attributes: ['id', 'ownerId']
         });
 
         const userBooking = await Booking.findOne({
