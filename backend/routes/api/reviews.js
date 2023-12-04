@@ -28,7 +28,7 @@ router.get(
         let reviewedSpots = []
         for (let i = 0; i < userReviews.length; i++) {
             let review = userReviews[i]
-            const spot = await Spot.findOne({
+            let spot = await Spot.findOne({
                 where: {
                     id: review.spotId
                 },
