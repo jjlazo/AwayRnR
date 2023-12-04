@@ -64,7 +64,7 @@ const queryvalidation = async (req, res, next) => {
     next();
 };
 
-const queryObjFunc = async (query) => {
+const queryObjFunc = (query) => {
     const { minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = query;
     const queryObj = { where: {} };
 
