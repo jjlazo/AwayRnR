@@ -311,6 +311,7 @@ router.post(
     '/:spotId/images',
     requireAuth,
     requireOwner,
+    spotFinder,
     validateSpotImage,
     async (req, res) => {
         const { spotId } = req.params;
@@ -333,6 +334,7 @@ router.post(
 router.put(
     '/:spotId',
     requireAuth,
+    spotFinder,
     requireOwner,
     validateSpot,
     async (req, res) => {
@@ -365,6 +367,7 @@ router.put(
 router.delete(
     '/:spotId',
     requireAuth,
+    spotFinder,
     requireOwner,
     async (req, res) => {
         const { spotId } = req.params;
