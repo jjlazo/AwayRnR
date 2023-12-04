@@ -497,7 +497,7 @@ const badDates = async (req, res, next) => {
                 errors.endDate = "End date conflicts with an existing booking";
             }
 
-            if (Date.parse(startDate) <= start && Date.parse(endDate) >= end) {
+            if (Date.parse(startDate) < start && Date.parse(endDate) > end) {
                 errors.startDate = "Start date conflicts with an existing booking";
                 errors.endDate = "End date conflicts with an existing booking";
             }
