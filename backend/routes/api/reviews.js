@@ -128,7 +128,7 @@ router.post(
 
 const reviewValidator = [
     check('review')
-        .exists({ checkNull: true })
+        .exists({ checkFalsy: true })
         .withMessage("Review text is required"),
     check('stars')
         .isInt({ min: 1, max: 5 })
