@@ -23,7 +23,7 @@ router.get(
         let bookings = []
         for (let i = 0; i < userBookings.length; i++) {
             let booking = userBookings[i]
-            const spot = await Spot.findOne({
+            let spot = await Spot.findOne({
                 where: {
                     id: booking.spotId
                 },
