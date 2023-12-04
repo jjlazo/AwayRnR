@@ -8,6 +8,19 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models')
 
+const spotFinder = async (req, res, next) => {
+    const { spotId } = req.params;
+    const currentSpot = await Spot.findOne({
+        where: {
+            id: spotId,
+        }
+    });
+    if (!currentSpot) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+    return next();
+};
+
 const queryvalidation = async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
@@ -382,18 +395,7 @@ router.delete(
         return res.json({ message: "Successfully deleted" });
     }
 );
-const spotFinder = async (req, res, next) => {
-    const { spotId } = req.params;
-    const currentSpot = await Spot.findOne({
-        where: {
-            id: spotId,
-        }
-    });
-    if (!currentSpot) {
-        return res.status(404).json({ message: "Spot couldn't be found" });
-    }
-    return next();
-};
+
 
 //get all bookings for a spot
 // res should only include { spotId, startDate, endDate } if not the owner of the spot
