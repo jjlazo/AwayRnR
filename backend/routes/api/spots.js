@@ -58,8 +58,8 @@ const queryvalidation = async (req, res, next) => {
     if (Object.keys(errors).length) {
         const newError = new Error('Bad Request');
         newError.errors = errors;
-        newError.status(400);
-        next(newError);
+        newError.status = 400;
+        return next(newError);
     }
     next();
 };
