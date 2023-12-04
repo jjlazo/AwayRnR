@@ -6,7 +6,7 @@ const { check } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
+const { Spot, Review, User, ReviewImage } = require('../../db/models');
 
 //get reviews of current user
 router.get(
