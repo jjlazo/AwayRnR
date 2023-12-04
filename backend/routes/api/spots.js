@@ -7,44 +7,139 @@ const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models')
+
+const queryvalidation = async (req, res, next) => {
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+    const errors = {};
+    if (page < 1) {
+        errors.page = 'Page must be greater than or equal to 1';
+    }
+    if (page > 10) {
+        errors.page = 'Page must be less than or equal to 10';
+    }
+    if (size < 1) {
+        errors.size = 'Size must be greater than or equal to 1';
+    }
+    if (size > 10) {
+        errors.size = 'Size must be less than or equal to 10';
+    }
+    if (maxLat > 90 || maxLat < -90) {
+        errors.maxLat = 'Maxium latitude is invalid';
+    }
+    if (minLat > 90 || minLat < -90) {
+        errors.minLat = 'Minimum latitude is invalid';
+    }
+    if (maxLng > 180 || maxLng < -180) {
+        errors.maxLng = 'Maxium longitude is invalid';
+    }
+    if (minLng > 180 || minLng < -180) {
+        errors.minLng = 'Minimum longitude is invalid';
+    }
+    if (minPrice < 0) {
+        errors.minPrice = 'Minimum price must be greater than or equal to 0';
+    }
+    if (maxPrice < 0) {
+        errors.maxPrice = "Maximum price must be greater than or equal to 0";
+    }
+    if (Object.keys(errors).length) {
+        const newError = new Error('Bad Request');
+        newError.errors = errors;
+        newError.status(400);
+        next(newError);
+    }
+    next();
+};
+
+const queryObjFunc = async (query) => {
+    const { minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = query;
+    const queryObj = { where: {} };
+
+    if (minLat && maxLat) {
+        queryObj.where.lat = { [Op.between]: [minLat, maxLat] }
+    }
+    else if (minLat) {
+        queryObj.where.lat = { [Op.gte]: [minLat] }
+    }
+    else if (maxLat) {
+        queryObj.where.lat = { [Op.lte]: [maxLat] }
+    }
+    if (minLng && maxLng) {
+        queryObj.where.lng = { [Op.between]: [minLng, maxLng] }
+    }
+    else if (minLng) {
+        queryObj.where.lng = { [Op.gte]: [minLng] }
+    }
+    else if (maxLng) {
+        queryObj.where.lng = { [Op.lte]: [maxLng] }
+    }
+    if (minPrice && maxPrice) {
+        queryObj.where.price = { [Op.between]: [minPrice, maxPrice] }
+    }
+    else if (minPrice) {
+        queryObj.where.price = { [Op.gte]: [minPrice] }
+    }
+    else if (maxPrice) {
+        queryObj.where.price = { [Op.lte]: [maxPrice] }
+    }
+    return queryObj
+}
+
 //get all spots
-router.get('/', async (req, res) => {
-    const Spots = await Spot.findAll({
-        include: [
-            { model: Review, attributes: ['stars'] },
-            { model: SpotImage, attributes: ['url', 'preview'] }
-        ]
+router.get(
+    '/',
+    queryvalidation,
+    async (req, res) => {
+        let { page, size } = req.query;
+        // Set defaults
+        if (page === undefined) page = 1;
+        if (size === undefined) size = 20;
+
+        const pagination = {
+            limit: size,
+            offset: size * (page - 1)
+        };
+
+        const query = queryObjFunc(req.query);
+
+        const Spots = await Spot.findAll({
+            include: [
+                { model: Review, attributes: ['stars'] },
+                { model: SpotImage, attributes: ['url', 'preview'] }
+            ],
+            ...pagination,
+            ...query
+        });
+        //loop through spots
+        const spots = []
+        Spots.forEach(s => {
+            const spot = s.toJSON();
+            // spot.Reviews //reduce stars
+            const totalStars = spot.Reviews.reduce((total, review) => {
+                return total += review.stars
+            }, 0);
+            // console.log({ totalStars })
+            const totalReviews = spot.Reviews.reduce((acc, review) => { return acc += 1 }, 0);
+
+            // spot.SpotImage // loop through and check if preview is true,
+            // if false "no prev img available err"
+            const previewImage = spot.SpotImages.find(image => image.preview === true);
+            const previewImageUrl = previewImage ? previewImage.url : 'No preview image available';
+            // console.log({ previewImage });
+            // console.log({ previewImageUrl });
+
+            const starRating = totalStars / totalReviews;
+            spot.avgRating = starRating || 'No rating available';
+            spot.previewImage = previewImageUrl;
+
+            // console.log({ starRating });
+            delete spot.Reviews;
+            delete spot.SpotImages;
+            spots.push(spot);
+        });
+
+        return res.json(spots);
     });
-    //loop through spots
-    const spots = []
-    Spots.forEach(s => {
-        const spot = s.toJSON();
-        // spot.Reviews //reduce stars
-        const totalStars = spot.Reviews.reduce((total, review) => {
-            return total += review.stars
-        }, 0);
-        // console.log({ totalStars })
-        const totalReviews = spot.Reviews.reduce((acc, review) => { return acc += 1 }, 0);
-
-        // spot.SpotImage // loop through and check if preview is true,
-        // if false "no prev img available err"
-        const previewImage = spot.SpotImages.find(image => image.preview === true);
-        const previewImageUrl = previewImage ? previewImage.url : 'No preview image available';
-        // console.log({ previewImage });
-        // console.log({ previewImageUrl });
-
-        const starRating = totalStars / totalReviews;
-        spot.avgRating = starRating || 'No rating available';
-        spot.previewImage = previewImageUrl;
-
-        // console.log({ starRating });
-        delete spot.Reviews;
-        delete spot.SpotImages;
-        spots.push(spot);
-    });
-
-    return res.json(spots);
-});
 // get current user spots
 router.get(
     '/current',
@@ -109,6 +204,7 @@ router.get('/:spotId', async (req, res) => {
 
     const starRating = totalStars / totalReviews;
     payload.avgRating = starRating || 'No rating available';
+    payload.numReviews = totalReviews || "No reviews available"
     payload.Owner = payload.User;
 
     delete payload.User;
@@ -135,9 +231,11 @@ const validateSpot = [
         .withMessage('Country is required'),
     check('lat')
         .exists({ checkFalsy: true })
+        .isInt({ min: -90, max: 90 })
         .withMessage('Latitude is not valid'),
     check('lng')
         .exists({ checkFalsy: true })
+        .isInt({ min: -180, max: 180 })
         .withMessage('Longitude is not valid'),
     check('name')
         .exists({ checkFalsy: true })
@@ -150,6 +248,7 @@ const validateSpot = [
         .withMessage('Description is required'),
     check('price')
         .exists({ checkFalsy: true })
+        .isInt({ min: 0 })
         .withMessage('Price per day is required'),
     handleValidationErrors
 ];
@@ -335,6 +434,7 @@ router.get(
                 endDate: userBooking.endDate
             });
         };
+
         if (currSpot.ownerId === user.id) {
             return res.json(spotBookings);
         };
@@ -403,8 +503,8 @@ const badDates = async (req, res, next) => {
 //create a booking for a spot based on the spots id
 router.post(
     '/:spotId/bookings',
-    spotFinder,
     requireAuth,
+    spotFinder,
     nonOwner,
     badDates,
     async (req, res) => {
@@ -470,9 +570,10 @@ const uniqueReview = async function (req, res, next) {
 
 const reviewValidator = [
     check('review')
-        .exists({ checkNull: true })
+        .exists({ checkFalsy: true })
         .withMessage("Review text is required"),
     check('stars')
+        .exists({ checkFalsy: true })
         .isInt({ min: 1, max: 5 })
         .withMessage("Stars must be an integer from 1 to 5"),
     handleValidationErrors

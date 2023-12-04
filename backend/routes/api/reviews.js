@@ -6,7 +6,7 @@ const { check } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { Spot, Review, User, ReviewImage } = require('../../db/models');
+const { Spot, Review, User, ReviewImage, SpotImage } = require('../../db/models');
 
 //get reviews of current user
 router.get(
@@ -19,20 +19,44 @@ router.get(
                 userId: user.id
             },
             include: [
-                { model: Spot, attributes: { exclude: ['createdAt', 'updatedAt'] } },
                 { model: User, attributes: ['id', 'firstName', 'lastName'] },
                 { model: ReviewImage, attributes: ['id', 'url'] }
             ],
             attributes: ['id', 'userId', 'spotId', 'review', 'stars', 'createdAt', 'updatedAt']
         });
 
-        userReviews.User = {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName
-        };
+        let reviewedSpots = []
+        for (let i = 0; i < userReviews.length; i++) {
+            let review = userReviews[i]
+            const spot = await Spot.findOne({
+                where: {
+                    id: review.spotId
+                },
+                attributes: {
+                    exclude: ['description', 'createdAt', 'updatedAt']
+                }
+            })
 
-        return res.json(userReviews);
+            const spotImage = await SpotImage.findAll({
+                where: {
+                    spotId: review.spotId,
+                    preview: true
+                }
+            })
+            spot = spot.toJSON();
+            review = review.toJSON();
+
+            spot.previewImage = spotImage.url || 'No image available';
+            review.spot = spot;
+            reviewedSpots.push(review);
+            review.User = {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName
+            };
+        }
+
+        return res.json(reviewedSpots);
     }
 );
 

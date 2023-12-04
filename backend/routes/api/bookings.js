@@ -17,16 +17,41 @@ router.get(
         const userBookings = await Booking.findAll({
             where: {
                 userId: user.id
-            },
-            include: [
-                {
-                    model: Spot,
-                    attributes: { exclude: ['createdAt', 'updatedAt'] },
-                    include: { model: SpotImage, attributes: ['preview', 'url'] }
-                },
-            ],
+            }
         });
-        return res.json(userBookings);
+
+        let bookings = []
+        for (let i = 0; i < userBookings.length; i++) {
+            let booking = userBookings[i]
+            const spot = await Spot.findOne({
+                where: {
+                    id: booking.spotId
+                },
+                attributes: {
+                    exclude: ['description', 'createdAt', 'updatedAt']
+                }
+            })
+
+            const spotImage = await SpotImage.findAll({
+                where: {
+                    spotId: booking.spotId,
+                    preview: true
+                }
+            })
+            spot = spot.toJSON();
+            booking = booking.toJSON();
+
+            spot.previewImage = spotImage.url || 'No image available';
+            booking.spot = spot;
+            bookings.push(booking);
+            booking.User = {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName
+            };
+        }
+
+        return res.json(bookings);
     }
 );
 
