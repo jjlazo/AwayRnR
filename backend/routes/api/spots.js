@@ -525,7 +525,7 @@ router.post(
             startDate,
             endDate,
             userId: user.id,
-            spotId: spotId
+            spotId: parseInt(spotId, 10)
         });
 
         return res.json(newBooking);
