@@ -14,5 +14,13 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "js-cookie": "^3.0.5",
+    "react-redux": "^9.0.4",
+    "redux": "^5.0.0"
+  },
+  "devDependencies": {
+    "redux-logger": "^3.0.6"
+  }
 }
