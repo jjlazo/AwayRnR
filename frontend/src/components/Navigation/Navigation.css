@@ -1,3 +1,31 @@
 .hidden {
     display: none;
 }
+
+#logo {
+    width: 15px;
+    height: 15px;
+    padding-right: 2px;
+}
+
+#nav-bar {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px;
+    border-bottom: 1px gray solid;
+}
+
+.profile-dropdown {
+    list-style-type: none;
+}
+
+#nav-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#prof-but {
+    cursor: pointer;
+}

@@ -1,9 +1,8 @@
-form {
+#login-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 1px solid black;
-    border-radius: 5%;
     padding: 5px;
 }
 
@@ -12,13 +11,13 @@ form {
     align-content: center;
 }
 
-div {
+#lfm-form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-label {
+.lfm-label {
     display: flex;
     flex-direction: column;
     align-items: center;
