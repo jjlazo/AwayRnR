@@ -26,10 +26,10 @@ function LoginFormModal() {
     };
 
     return (
-        <>
-            <h1>Log In</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
+        <div id='login-form'>
+            <h1 id='header'>Log In</h1>
+            <form onSubmit={handleSubmit} id='lfm-form'>
+                <label className='lfm-label'>
                     Username or Email
                     <input
                         type="text"
@@ -38,7 +38,7 @@ function LoginFormModal() {
                         required
                     />
                 </label>
-                <label>
+                <label className='lfm-label'>
                     Password
                     <input
                         type="password"
@@ -52,7 +52,7 @@ function LoginFormModal() {
                 )}
                 <button type="submit">Log In</button>
             </form>
-        </>
+        </div>
     );
 }
 

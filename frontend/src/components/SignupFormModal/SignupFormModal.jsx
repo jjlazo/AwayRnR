@@ -42,10 +42,10 @@ function SignupFormModal() {
     };
 
     return (
-        <>
-            <h1>Sign Up</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
+        <div id='signup-form'>
+            <h1 id='header'>Sign Up</h1>
+            <form onSubmit={handleSubmit} id='su-form'>
+                <label className='su-label'>
                     Email
                     <input
                         type="text"
@@ -55,7 +55,7 @@ function SignupFormModal() {
                     />
                 </label>
                 {errors.email && <p>{errors.email}</p>}
-                <label>
+                <label className='su-label'>
                     Username
                     <input
                         type="text"
@@ -65,7 +65,7 @@ function SignupFormModal() {
                     />
                 </label>
                 {errors.username && <p>{errors.username}</p>}
-                <label>
+                <label className='su-label'>
                     First Name
                     <input
                         type="text"
@@ -75,7 +75,7 @@ function SignupFormModal() {
                     />
                 </label>
                 {errors.firstName && <p>{errors.firstName}</p>}
-                <label>
+                <label className='su-label'>
                     Last Name
                     <input
                         type="text"
@@ -85,7 +85,7 @@ function SignupFormModal() {
                     />
                 </label>
                 {errors.lastName && <p>{errors.lastName}</p>}
-                <label>
+                <label className='su-label'>
                     Password
                     <input
                         type="password"
@@ -95,7 +95,7 @@ function SignupFormModal() {
                     />
                 </label>
                 {errors.password && <p>{errors.password}</p>}
-                <label>
+                <label className='su-label'>
                     Confirm Password
                     <input
                         type="password"
@@ -109,7 +109,7 @@ function SignupFormModal() {
                 )}
                 <button type="submit">Sign Up</button>
             </form>
-        </>
+        </ div>
     );
 }
 
