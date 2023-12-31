@@ -142,7 +142,7 @@ router.get(
             // console.log({ previewImageUrl });
 
             const starRating = totalStars / totalReviews;
-            spot.avgRating = starRating || 'No rating available';
+            spot.avgRating = totalReviews !== 0 ? starRating.toFixed(1) : 'New';
             spot.previewImage = previewImageUrl;
 
             // console.log({ starRating });
@@ -179,7 +179,7 @@ router.get(
             const previewImageUrl = previewImage ? previewImage.url : 'No preview image available';
 
             const starRating = totalStars / totalReviews;
-            spot.avgRating = starRating;
+            spot.avgRating = totalReviews === 0 ? "New" : starRating.toFixed(1);
             spot.previewImage = previewImageUrl;
 
             delete spot.Reviews;
@@ -216,8 +216,8 @@ router.get('/:spotId', async (req, res) => {
     const totalReviews = payload.Reviews.reduce((acc, review) => { return acc += 1 }, 0);
 
     const starRating = totalStars / totalReviews;
-    payload.avgRating = starRating || 'No rating available';
-    payload.numReviews = totalReviews || "No reviews available"
+    payload.avgRating = totalReviews !== 0 ? starRating.toFixed(1) : 'New';
+    payload.numReviews = totalReviews;
     payload.Owner = payload.User;
 
     delete payload.User;
