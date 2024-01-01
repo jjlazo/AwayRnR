@@ -8,6 +8,17 @@
     padding-right: 2px;
 }
 
+#nav-bar-right {
+    display: flex;
+    padding: 0;
+    justify-content: space-between;
+}
+
+#nav-link-right {
+    margin-right: 8px;
+    text-decoration: none;
+}
+
 #nav-bar {
     list-style-type: none;
     display: flex;

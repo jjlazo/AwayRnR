@@ -23,20 +23,16 @@ const ReviewForm = ({ spot }) => {
         return dispatch(fetchCreateReview(spot.id, review))
             .then(closeModal)
             .catch(async (res) => {
-                debugger
-                const data = await res.json();
-                if (data && data.message) {
-                    setErrors(data.message);
-                }
+                setErrors("We have encountered an error, please try again later");
             });
     };
 
     const disabled = reviewText.length < 10 || stars === null;
 
-    console.log({errors})
     return (
         <form onSubmit={handleSubmit} id='review-form'>
             <h2>How was your stay?</h2>
+            {errors && (<p>{errors}</p>)}
             <textarea
                 placeholder="Leave your review here..."
                 value={reviewText}
@@ -44,7 +40,6 @@ const ReviewForm = ({ spot }) => {
                 required
                 id="review-form-text-area"
             />
-            {errors && (<p>{errors}</p>)}
             <StarsInput setStars={setStars} stars={stars} />
             <button
                 type='submit'

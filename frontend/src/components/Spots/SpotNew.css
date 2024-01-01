@@ -1,0 +1,52 @@
+#spot-new {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#sn-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 33%;
+}
+
+.sn-form-section {
+    display: flex;
+    flex-direction: column;
+    border-bottom: solid black 1px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
+
+#sn-form-image-section input {
+    margin-bottom: 8px;
+}
+
+#sn-form-submit {
+    width: fit-content;
+    align-self: center;
+}
+
+#city-state-row {
+    display: flex;
+}
+
+.sn-label {
+    display: flex;
+    flex-direction: column;
+}
+
+#city-state-comma {
+    padding-left: 4px;
+    padding-right: 4px;
+    align-self: flex-end;
+}
+
+#sn-form>h2 {
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+.sn-form-section>h3 {
+    margin: 0;
+}

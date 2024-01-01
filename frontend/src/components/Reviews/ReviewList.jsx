@@ -12,7 +12,7 @@ const ReviewList = ({ spot }) => {
 
     const reviews = reviewObj ? Object.values(reviewObj) : [];
 
-    const [showReviewForm, setShowReviewForm] = useState(false);
+    // const [showReviewForm, setShowReviewForm] = useState(false);
 
     useEffect(() => {
         dispatch(fetchReviews(spot.id));
@@ -20,22 +20,21 @@ const ReviewList = ({ spot }) => {
 
     let userIsOwner = sessionObj.user && sessionObj.user.id === spot.ownerId
     let showReviewMessage = reviews.length === 0 && !userIsOwner;
+    const userHasReviewed = reviews.some(review => review.userId === sessionObj.user.id);
 
-    const handleClick = data => {
-        setShowReviewForm(true);
-    }
-
-    console.log({ userIsOwner, showReviewMessage })
+    // const handleClick = data => {
+    //     setShowReviewForm(true);
+    // }
 
     // if there are no reviews & user is not owner show
     if (showReviewMessage) {
         return <div id="review-list">
             {
-                (sessionObj.user && !userIsOwner) &&
+                (sessionObj.user && !userIsOwner && !userHasReviewed) &&
                 <div id="post-review-button">
                     <OpenModalMenuItem
                         itemText="Post Your Review!"
-                        onItemClick={handleClick}
+                        // onItemClick={handleClick}
                         modalComponent={<ReviewForm spot={spot} />}
                     />
                 </div>
@@ -47,11 +46,11 @@ const ReviewList = ({ spot }) => {
     return (
         <div id="review-list">
             {
-                (sessionObj.user && !userIsOwner) &&
+                (sessionObj.user && !userIsOwner && !userHasReviewed) &&
                 <div id="post-review-button">
                     <OpenModalMenuItem
                         itemText="Post Your Review!"
-                        onItemClick={handleClick}
+                        // onItemClick={handleClick}
                         modalComponent={<ReviewForm spot={spot} />}
                     />
                 </div>

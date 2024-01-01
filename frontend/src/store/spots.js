@@ -5,6 +5,7 @@ const READ_SPOTS = "spots/readSpots";
 const READ_SPOT = "spots/readSpot";
 const CREATE_SPOT = "spots/createSpot";
 const UPDATE_SPOT = "spots/updateSpot";
+const ADD_REVIEW = "spots/addReview";
 const REMOVE_SPOT = "spots/removeSpot";
 //actions
 export const readSpots = spots => ({
@@ -27,8 +28,15 @@ export const updateSpot = spotId => ({
     spotId
 });
 
-export const createSpot = () => ({
-    type: CREATE_SPOT
+export const addReview = (spotId, stars) => ({
+    type: ADD_REVIEW,
+    spotId,
+    stars
+});
+
+export const createSpot = spot => ({
+    type: CREATE_SPOT,
+    spot
 });
 
 //thunk
@@ -46,12 +54,62 @@ export const fetchCreateSpot = (spot) => async (dispatch) => {
     const res = await csrfFetch('/api/spots', {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(spot)
-      });
+    });
 
     const newSpot = await res.json();
+
+    if (spot.images[0]) {
+        const imageRes0 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ preview: true, url: spot.images[0] })
+        });
+    }
+
+    if (spot.images[1]) {
+        const imageRes1 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ preview: true, url: spot.images[1] })
+        });
+    }
+
+    if (spot.images[2]) {
+        const imageRes2 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ preview: true, url: spot.images[2] })
+        });
+    }
+
+    if (spot.images[3]) {
+        const imageRes3 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ preview: true, url: spot.images[3] })
+        });
+    }
+
+    if (spot.images[4]) {
+        const imageRes4 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ preview: true, url: spot.images[4] })
+        });
+    }
 
     dispatch(createSpot(newSpot));
 
@@ -62,10 +120,10 @@ export const fetchUpdateSpot = (spot) => async (dispatch) => {
     const res = await csrfFetch(`/api/spots/${spot.id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(spot)
-      });
+    });
 
     const updatedSpot = await res.json();
 
@@ -87,6 +145,15 @@ export const fetchSingleSpot = (spotId) => async (dispatch) => {
 //reducer
 const spotsReducer = (state = {}, action) => {
     switch (action.type) {
+        case ADD_REVIEW: {
+            const numReviews = state[action.spotId].numReviews + 1;
+            let avgRating = action.stars;
+            if (numReviews > 1) {
+                const totalRating = state[action.spotId].numReviews * state[action.spotId].avgRating;
+                avgRating = ((totalRating + action.stars) / numReviews).toFixed(1);
+            }
+            return { ...state, [action.spotId]: {...state[action.spotId], numReviews, avgRating}}
+        }
         case READ_SPOT:
             return { ...state, [action.spot.id]: action.spot };
         case READ_SPOTS: {

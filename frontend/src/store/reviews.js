@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { addReview } from "./spots";
 
 //types
 const READ_REVIEWS = "reviews/readReviews";
@@ -41,16 +42,13 @@ export const fetchCreateReview = (spotId, review) => async (dispatch) => {
         },
         body: JSON.stringify(review)
       });
-    debugger
-    // if (res.ok) {
-        const newReview = await res.json();
+    const newReview = await res.json();
 
-        dispatch(createReview(spotId, newReview));
+    dispatch(createReview(spotId, newReview));
 
-        return { review: newReview }
-    // }
+    dispatch(addReview(spotId, review.stars));
 
-
+    return { review: newReview }
 };
 
 // export const fetchUpdateReview = (spotId, review) => async (dispatch) => {
@@ -96,7 +94,6 @@ export const fetchCreateReview = (spotId, review) => async (dispatch) => {
 const reviewsReducer = (state = {}, action) => {
     switch (action.type) {
         case READ_REVIEWS: {
-            debugger
             const newState = { ...(state[action.spotId] || {}) };
             for (let review of action.reviews) {
                 newState[review.id] = review;
@@ -104,13 +101,11 @@ const reviewsReducer = (state = {}, action) => {
             return { ...state, [action.spotId]: newState};
         }
         case REMOVE_REVIEW: {
-            debugger
             const newState = { ...(state[action.spotId] || {}) };
             delete newState[action.reviewId];
             return newState;
         }
         case CREATE_REVIEW: {
-            debugger
             const newState = { ...(state[action.spotId] || {}) };
             newState[action.review.id] = action.review;
             return { ...state, [action.spotId]: newState };
