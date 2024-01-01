@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSingleSpot } from '../../store/spots.js';
 import "./SpotShow.css";
+import ReviewList from '../Reviews/ReviewList.jsx';
 
 const SpotShow = () => {
     const dispatch = useDispatch()
@@ -46,6 +47,7 @@ const SpotShow = () => {
 
             </div>
             <ReviewSummary numReviews={spot.numReviews} avgRating={spot.avgRating} />
+            <ReviewList spot={spot}/>
         </div>
     )
 };

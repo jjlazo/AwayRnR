@@ -245,7 +245,7 @@ const validateSpot = [
     check('lat')
         .exists({ checkFalsy: true })
         .withMessage('Latitude does not exist'),
-        check('lat')
+    check('lat')
         .isFloat({ min: -90, max: 90 })
         .withMessage('Latitude is not valid'),
     check('lng')
@@ -571,7 +571,7 @@ const uniqueReview = async function (req, res, next) {
     });
 
     if (oldie) {
-        return res.status(500).json({ message: "User already has a review for this spot" });
+        return res.status(400).json({ message: "User already has a review for this spot" });
     };
 
     return next();
@@ -608,6 +608,8 @@ router.post(
         });
 
         await newReview.save();
+
+        newReview.dataValues.User = user.dataValues;
 
         return res.json(newReview);
     }

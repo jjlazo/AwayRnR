@@ -1,0 +1,19 @@
+.stars-input {
+    display: flex;
+    flex-direction: row;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+#review-form {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+#review-form-text-area {
+    /* min-width: none; */
+    min-height: 100px;
+}

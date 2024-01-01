@@ -1,3 +1,5 @@
+import { csrfFetch } from "./csrf";
+
 //types
 const READ_SPOTS = "spots/readSpots";
 const READ_SPOT = "spots/readSpot";
@@ -34,23 +36,46 @@ export const fetchSpots = () => async (dispatch) => {
     const res = await fetch('/api/spots');
     const data = await res.json();
     const spots = data;
-    // const reviews = {};
-    // for (let spot of spots) {
-    //     if ('Reviews' in spot) {
-    //         for (let review of spot.Reviews) {
-    //             reviews[review.id] = review;
-    //         }
-    //         delete spot.Reviews;
-    //     }
-    // }
+
     dispatch(readSpots(spots));
-    // dispatch(receiveReviews(reviews));
-    // return { spots, reviews };
+
     return { spots }
 };
 
+export const fetchCreateSpot = (spot) => async (dispatch) => {
+    const res = await csrfFetch('/api/spots', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(spot)
+      });
+
+    const newSpot = await res.json();
+
+    dispatch(createSpot(newSpot));
+
+    return { spot: newSpot }
+};
+
+export const fetchUpdateSpot = (spot) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spot.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(spot)
+      });
+
+    const updatedSpot = await res.json();
+
+    dispatch(createSpot(updatedSpot));
+
+    return { spot: updatedSpot }
+};
+
 export const fetchSingleSpot = (spotId) => async (dispatch) => {
-    const res = await fetch(`/api/spots/${spotId}`);
+    const res = await csrfFetch(`/api/spots/${spotId}`);
     const data = await res.json();
     const spot = data;
 
@@ -58,16 +83,6 @@ export const fetchSingleSpot = (spotId) => async (dispatch) => {
 
     return { spot }
 };
-
-// const selectSpots = state => state?.spots;
-
-// export const selectAllSpots = createSelector(selectSpots, spots => {
-//     return spots ? Object.values(spots) : [];
-// });
-
-// export const selectSpot = spotId => state => {
-//     return state?.spots ? state.spots[spotId] : null;
-// };
 
 //reducer
 const spotsReducer = (state = {}, action) => {
@@ -87,7 +102,9 @@ const spotsReducer = (state = {}, action) => {
             return newState;
         }
         case CREATE_SPOT:
-            return { ...state, spots: [action.spot, ...state.spots] };
+            return { ...state, [action.spot.id]: action.spot };
+        case UPDATE_SPOT:
+            return { ...state, [action.spot.id]: action.spot };
         default:
             return state;
     }

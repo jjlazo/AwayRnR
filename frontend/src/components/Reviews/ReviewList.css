@@ -1,0 +1,8 @@
+#post-review-button {
+    max-width: fit-content;
+}
+
+#review-list {
+    display: flex;
+    flex-direction: column;
+}
