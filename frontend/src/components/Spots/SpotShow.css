@@ -58,6 +58,7 @@
 
 #spot-show-callout>button {
     width: 100%;
+    padding: 8px 5px;
 }
 
 #spot-show-desc-section {

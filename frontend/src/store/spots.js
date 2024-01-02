@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { REMOVE_REVIEW } from "./reviews";
 
 //types
 const READ_SPOTS = "spots/readSpots";
@@ -132,6 +133,19 @@ export const fetchUpdateSpot = (spot) => async (dispatch) => {
     return { spot: updatedSpot }
 };
 
+export const fetchDeleteSpot = (spotId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+
+    dispatch(removeSpot(spotId));
+
+    return true;
+};
+
 export const fetchSingleSpot = (spotId) => async (dispatch) => {
     const res = await csrfFetch(`/api/spots/${spotId}`);
     const data = await res.json();
@@ -152,6 +166,17 @@ const spotsReducer = (state = {}, action) => {
                 const totalRating = state[action.spotId].numReviews * state[action.spotId].avgRating;
                 avgRating = ((totalRating + action.stars) / numReviews).toFixed(1);
             }
+            return { ...state, [action.spotId]: {...state[action.spotId], numReviews, avgRating}}
+        }
+        case REMOVE_REVIEW: {
+            const numReviews = state[action.spotId].numReviews - 1;
+
+            let avgRating = 'New';
+            if (numReviews !== 0) {
+                const totalRating = state[action.spotId].numReviews * state[action.spotId].avgRating;
+                avgRating = ((totalRating - action.review.stars) / numReviews).toFixed(1);
+            }
+
             return { ...state, [action.spotId]: {...state[action.spotId], numReviews, avgRating}}
         }
         case READ_SPOT:

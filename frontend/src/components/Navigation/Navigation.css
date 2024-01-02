@@ -19,6 +19,10 @@
     text-decoration: none;
 }
 
+#manage-spot-navlink {
+    text-decoration: none;
+}
+
 #nav-bar {
     list-style-type: none;
     display: flex;
@@ -30,6 +34,33 @@
 
 .profile-dropdown {
     list-style-type: none;
+    position: relative;
+}
+
+#profile-popup-menu {
+    position: absolute;
+    border: black solid 2px;
+    border-radius: 5px;
+    right: 0;
+    top: 5px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(154, 204, 243);
+}
+
+#profile-popup-menu>*:nth-last-child(n + 2) {
+    margin-bottom: 8px;
+    border-bottom: 1px solid black;
+}
+
+#profile-popup-menu>*:last-child {
+    align-self: center;
+}
+
+#profile-popup-menu button {
+    background-color: red;
+    align-self: center;
 }
 
 #nav-link {

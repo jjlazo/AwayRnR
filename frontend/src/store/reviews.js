@@ -4,7 +4,7 @@ import { addReview } from "./spots";
 //types
 const READ_REVIEWS = "reviews/readReviews";
 const CREATE_REVIEW = "reviews/createReview";
-const REMOVE_REVIEW = "reviews/removeReview";
+export const REMOVE_REVIEW = "reviews/removeReview";
 //actions
 export const readReviews = (spotId, reviews) => ({
     type: READ_REVIEWS,
@@ -12,9 +12,10 @@ export const readReviews = (spotId, reviews) => ({
     spotId
 });
 
-export const removeReview = reviewId => ({
+export const removeReview = (spotId, review) => ({
     type: REMOVE_REVIEW,
-    reviewId
+    review,
+    spotId
 });
 
 export const createReview = (spotId, review) => ({
@@ -67,21 +68,19 @@ export const fetchCreateReview = (spotId, review) => async (dispatch) => {
 //     return { review: updatedReview }
 // };
 
-// export const fetchDeleteReview = (spotId, review) => async (dispatch) => {
-//     const res = await csrfFetch(`/api/reviews/${review.id}`, {
-//         method: "DELETE",
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ reviewId: review.id })
-//       });
+export const fetchDeleteReview = (spotId, review) => async (dispatch) => {
+    const res = await csrfFetch(`/api/reviews/${review.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ reviewId: review.id })
+      });
 
-//     const updatedReview = await res.json();
+    dispatch(removeReview(spotId, review));
 
-//     dispatch(removeReview(spotId, updatedReview));
-
-//     return { review: updatedReview }
-// };
+    return true;
+};
 
 
 //reducer
@@ -102,8 +101,8 @@ const reviewsReducer = (state = {}, action) => {
         }
         case REMOVE_REVIEW: {
             const newState = { ...(state[action.spotId] || {}) };
-            delete newState[action.reviewId];
-            return newState;
+            delete newState[action.review.id];
+            return { ...state, [action.spotId]: newState};
         }
         case CREATE_REVIEW: {
             const newState = { ...(state[action.spotId] || {}) };

@@ -1,11 +1,11 @@
-#post-review-button {
-    max-width: fit-content;
+.management-row {
+    display: flex;
 }
 
-#review-list {
-    display: flex;
-    flex-direction: column;
+.management-row>*:last-child {
+    margin-left: 5px;
 }
+
 
 #confirm-delete-modal {
     display: flex;
@@ -29,4 +29,10 @@
 
 #confirm-delete-cancel {
     background-color: darkgray;
+}
+
+#spots {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
