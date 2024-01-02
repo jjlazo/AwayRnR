@@ -37,6 +37,23 @@
     position: relative;
 }
 
+#popup-menu {
+    position: absolute;
+    border: black solid 2px;
+    border-radius: 5px;
+    right: 0;
+    top: 5px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(154, 204, 243);
+    width: 100px;
+}
+
+#popup-menu>*:first-child {
+    margin-bottom: 8px;
+}
+
 #profile-popup-menu {
     position: absolute;
     border: black solid 2px;

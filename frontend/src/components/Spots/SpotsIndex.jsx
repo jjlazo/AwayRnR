@@ -22,9 +22,11 @@ const SpotsIndex = () => {
                         title={spot.name}
                         onClick={() => navigate(`spots/${spot.id}`)}
                         key={spot.id}>
-                        <img
-                            src={spot.previewImage}
-                            className='spot-img' />
+                        <div style={{height: "150px"}}>
+                            <img
+                                src={spot.previewImage}
+                                className='spot-img' />
+                        </div>
                         <div className='spot-deets'>
                             <p>{spot.city}, {spot.state}</p>
                             <p>★{spot.avgRating}</p>

@@ -37,9 +37,8 @@ const SpotCurrent = () => {
             <br />
             <ul id='spots'>
                 {spots.map((spot) => (
-                    <div key={spot.id}>
+                    <div key={spot.id} className='spot-card'>
                         <div
-                            className='spot-card'
                             title={spot.name}
                             onClick={() => navigate(`/spots/${spot.id}`)}
                             key={spot.id}>
