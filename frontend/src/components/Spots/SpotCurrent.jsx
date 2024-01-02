@@ -37,7 +37,7 @@ const SpotCurrent = () => {
             <br />
             <ul id='spots'>
                 {spots.map((spot) => (
-                    <div>
+                    <div key={spot.id}>
                         <div
                             className='spot-card'
                             title={spot.name}

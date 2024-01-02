@@ -63,7 +63,7 @@ export const fetchCreateSpot = (spot) => async (dispatch) => {
     const newSpot = await res.json();
 
     if (spot.images[0]) {
-        const imageRes0 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+        await csrfFetch(`/api/spots/${newSpot.id}/images`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -73,7 +73,7 @@ export const fetchCreateSpot = (spot) => async (dispatch) => {
     }
 
     if (spot.images[1]) {
-        const imageRes1 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+        await csrfFetch(`/api/spots/${newSpot.id}/images`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -83,7 +83,7 @@ export const fetchCreateSpot = (spot) => async (dispatch) => {
     }
 
     if (spot.images[2]) {
-        const imageRes2 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+        await csrfFetch(`/api/spots/${newSpot.id}/images`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -93,7 +93,7 @@ export const fetchCreateSpot = (spot) => async (dispatch) => {
     }
 
     if (spot.images[3]) {
-        const imageRes3 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+        await csrfFetch(`/api/spots/${newSpot.id}/images`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -103,7 +103,7 @@ export const fetchCreateSpot = (spot) => async (dispatch) => {
     }
 
     if (spot.images[4]) {
-        const imageRes4 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+        await csrfFetch(`/api/spots/${newSpot.id}/images`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -134,7 +134,7 @@ export const fetchUpdateSpot = (spot) => async (dispatch) => {
 };
 
 export const fetchDeleteSpot = (spotId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/spots/${spotId}`, {
+    await csrfFetch(`/api/spots/${spotId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"

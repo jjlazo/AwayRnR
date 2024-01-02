@@ -22,7 +22,7 @@ const ReviewForm = ({ spot }) => {
         };
         return dispatch(fetchCreateReview(spot.id, review))
             .then(closeModal)
-            .catch(async (res) => {
+            .catch(async () => {
                 setErrors("We have encountered an error, please try again later");
             });
     };

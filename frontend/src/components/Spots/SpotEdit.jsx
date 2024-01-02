@@ -48,7 +48,7 @@ const SpotEdit = () => {
       <form onSubmit={handleSubmit} id='sn-form'>
         <h2>Update your Spot</h2>
         <div className="sn-form-section">
-          <h3>Where's your place located?</h3>
+          <h3>Where&apos;s your place located?</h3>
           <p>Guests will only get your exact address once they book a reservation.</p>
           <label className='sn-label'>
             Country
@@ -118,7 +118,7 @@ const SpotEdit = () => {
           <label className='sn-label'>
             Create a title for your spot
             <small>
-              Catch guests' attention with a spot title that highlights what makes
+              Catch guests&apos; attention with a spot title that highlights what makes
               your place special.
             </small>
             <input

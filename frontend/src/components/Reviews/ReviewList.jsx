@@ -5,28 +5,7 @@ import ReviewForm from "./ReviewForm";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import "./ReviewList.css";
 import { useModal } from "../../context/Modal";
-
-export const formatDate = (date = new Date()) => {
-    let month = date.getMonth();
-    let year = date.getFullYear();
-
-    const months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-    ]
-
-    return `${months[month]} ${year}`;
-}
+import { formatDate } from "../../utils/dates";
 
 const ReviewList = ({ spot }) => {
     const dispatch = useDispatch()
