@@ -22,7 +22,7 @@ const ReviewList = ({ spot }) => {
 
     let userIsOwner = sessionObj.user && sessionObj.user.id === spot.ownerId
     let showReviewMessage = reviews.length === 0 && !userIsOwner;
-    const userHasReviewed = reviews.some(review => review.userId === sessionObj.user.id);
+    const userHasReviewed = reviews.some(review => sessionObj.user && review.userId === sessionObj.user.id);
 
     const handleDeleteReview = review => {
         dispatch(fetchDeleteReview(spot.id, review));
@@ -62,7 +62,7 @@ const ReviewList = ({ spot }) => {
                         <div>{review.User.firstName}</div>
                         <div>{formatDate(new Date(review.createdAt))}</div>
                         <div>{review.review}</div>
-                        {review.userId === sessionObj.user.id && (
+                        {(sessionObj.user && review.userId === sessionObj.user.id) && (
                             // <button type='button' onClick={}>Delete</button>
                                 <OpenModalMenuItem
                                     itemText="Delete"
