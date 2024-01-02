@@ -51,7 +51,7 @@ const SpotNew = () => {
 
             />
           </label>
-          {errors.country && <p>{errors.country}</p>}
+          {errors.country && <p className='error-msg'>{errors.country}</p>}
           <label className='sn-label'>
             Address
             <input
@@ -62,7 +62,7 @@ const SpotNew = () => {
 
             />
           </label>
-          {errors.address && <p>{errors.address}</p>}
+          {errors.address && <p className='error-msg'>{errors.address}</p>}
           <div id="city-state-row">
             <label className='sn-label'>
               City
@@ -74,7 +74,7 @@ const SpotNew = () => {
 
               />
             </label>
-            {errors.city && <p>{errors.city}</p>}
+            {errors.city && <p className='error-msg'>{errors.city}</p>}
             <span id="city-state-comma">,</span>
             <label className='sn-label'>
               State
@@ -86,7 +86,7 @@ const SpotNew = () => {
 
               />
             </label>
-            {errors.state && <p>{errors.state}</p>}
+            {errors.state && <p className='error-msg'>{errors.state}</p>}
           </div>
 
         </div>
@@ -102,7 +102,7 @@ const SpotNew = () => {
 
             />
           </label>
-          {errors.description && <p>{errors.description}</p>}
+          {errors.description && <p className='error-msg'>{errors.description}</p>}
         </div>
 
         <div className="sn-form-section">
@@ -121,7 +121,7 @@ const SpotNew = () => {
             />
           </label>
           {errors.title && (
-            <p>{errors.title}</p>
+            <p className='error-msg'>{errors.title}</p>
           )}
         </div>
 
@@ -143,7 +143,7 @@ const SpotNew = () => {
             </span>
           </label>
           {errors.price && (
-            <p>{errors.price}</p>
+            <p className='error-msg'>{errors.price}</p>
           )}
         </div>
 
@@ -186,7 +186,7 @@ const SpotNew = () => {
             />
           </label>
           {errors.price && (
-            <p>{errors.price}</p>
+            <p className='error-msg'>{errors.price}</p>
           )}
         </div>
 

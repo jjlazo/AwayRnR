@@ -50,3 +50,7 @@
 .sn-form-section>h3 {
     margin: 0;
 }
+
+.error-msg {
+    color: red;
+}

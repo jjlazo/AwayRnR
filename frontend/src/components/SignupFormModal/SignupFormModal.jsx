@@ -56,7 +56,7 @@ function SignupFormModal() {
                         required
                     />
                 </label>
-                {errors.email && <p>{errors.email}</p>}
+                {errors.email && <p className='error-msg'>{errors.email}</p>}
                 <label className='su-label'>
                     Username
                     <input
@@ -66,7 +66,7 @@ function SignupFormModal() {
                         required
                     />
                 </label>
-                {errors.username && <p>{errors.username}</p>}
+                {errors.username && <p className='error-msg'>{errors.username}</p>}
                 <label className='su-label'>
                     First Name
                     <input
@@ -76,7 +76,7 @@ function SignupFormModal() {
                         required
                     />
                 </label>
-                {errors.firstName && <p>{errors.firstName}</p>}
+                {errors.firstName && <p className='error-msg'>{errors.firstName}</p>}
                 <label className='su-label'>
                     Last Name
                     <input
@@ -86,7 +86,7 @@ function SignupFormModal() {
                         required
                     />
                 </label>
-                {errors.lastName && <p>{errors.lastName}</p>}
+                {errors.lastName && <p className='error-msg'>{errors.lastName}</p>}
                 <label className='su-label'>
                     Password
                     <input
@@ -96,7 +96,7 @@ function SignupFormModal() {
                         required
                     />
                 </label>
-                {errors.password && <p>{errors.password}</p>}
+                {errors.password && <p className='error-msg'>{errors.password}</p>}
                 <label className='su-label'>
                     Confirm Password
                     <input
@@ -107,7 +107,7 @@ function SignupFormModal() {
                     />
                 </label>
                 {errors.confirmPassword && (
-                    <p>{errors.confirmPassword}</p>
+                    <p className='error-msg'>{errors.confirmPassword}</p>
                 )}
                 <button disabled={submitDisabled} type="submit">Sign Up</button>
             </form>
