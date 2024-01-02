@@ -28,6 +28,42 @@ module.exports = {
         userId: 1,
         review: 'sdrgiujbfdagbler',
         stars: 3
+      },
+      {
+        spotId: 1,
+        userId: 5,
+        review: 'wordswordswords',
+        stars: 3
+      },
+      {
+        spotId: 2,
+        userId: 2,
+        review: 'BANANAS',
+        stars: 3
+      },
+      {
+        spotId: 3,
+        userId: 7,
+        review: 'sdrgiujbfdagbler',
+        stars: 3
+      },
+      {
+        spotId: 7,
+        userId: 2,
+        review: 'wordswordswords',
+        stars: 4
+      },
+      {
+        spotId: 7,
+        userId: 3,
+        review: 'BANANAS',
+        stars: 5
+      },
+      {
+        spotId: 5,
+        userId: 1,
+        review: 'sdrgiujbfdagbler',
+        stars: 1
       }
     ]);
   },

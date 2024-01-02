@@ -13,11 +13,22 @@ function Navigation({ isLoaded }) {
           <img id='logo' src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Animal_Crossing_Leaf.svg/1024px-Animal_Crossing_Leaf.svg.png' /> AwayRnR
         </NavLink>
       </li>
-      {isLoaded && (
-        <li>
-          <ProfileButton user={sessionUser} />
-        </li>
-      )}
+      <li>
+        <ul id="nav-bar-right">
+          {sessionUser && (
+            <li>
+              <NavLink to="/spots/new" id='nav-link-right'>
+                Create a new Spot
+              </NavLink>
+            </li>
+          )}
+          {isLoaded && (
+            <li>
+              <ProfileButton user={sessionUser} />
+            </li>
+          )}
+        </ul>
+      </li>
     </ul>
   );
 }

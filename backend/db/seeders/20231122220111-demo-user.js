@@ -14,26 +14,68 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await User.bulkCreate([
       {
-        firstName: 'ThisIs',
-        lastName: 'AName',
-        email: 'thisisan@email.com',
-        username: 'ThisIsaUserName',
+        firstName: 'KK',
+        lastName: 'Slider',
+        email: 'kkslider@crossing.com',
+        username: 'KK-Slider',
         hashedPassword: bcrypt.hashSync('password')
-      },
-      {
+    },
+    {
+        firstName: 'Tom',
+        lastName: 'Nook',
+        email: 'tomnook@crossing.com',
+        username: 'TomNook',
+        hashedPassword: bcrypt.hashSync('password')
+    },
+    {
+        firstName: 'Chadder',
+        lastName: 'Cheese',
+        email: 'chadder@crossing.com',
+        username: 'sharpChad',
+        hashedPassword: bcrypt.hashSync('password')
+    },
+    {
+        firstName: 'Isabelle',
+        lastName: 'Hisho',
+        email: 'isabelle@crossing.com',
+        username: 'IsABelle',
+        hashedPassword: bcrypt.hashSync('password')
+    },
+    {
+        firstName: 'Celeste',
+        lastName: 'Hoot',
+        email: 'starryowl@crossing.com',
+        username: 'Celesti-Owl',
+        hashedPassword: bcrypt.hashSync('password')
+    },
+    {
+        firstName: 'Flick',
+        lastName: 'Bugnir',
+        email: 'iheartbugs@crossing.com',
+        username: 'tooQuickFlick',
+        hashedPassword: bcrypt.hashSync('password')
+    },
+    {
+        firstName: 'Harv',
+        lastName: 'Hound',
+        email: 'rvlife4ever@crossing.com',
+        username: 'Harv',
+        hashedPassword: bcrypt.hashSync('password')
+    },
+    {
+        firstName: 'Ankha',
+        lastName: 'Set',
+        email: 'ankha@crossing.com',
+        username: 'QueenAnkha',
+        hashedPassword: bcrypt.hashSync('password')
+    },
+    {
         firstName: 'Willy',
         lastName: 'Shakes',
         email: 'words@words.words',
         username: 'WillyShakes3',
         hashedPassword: bcrypt.hashSync('password2')
-      },
-      {
-        firstName: 'Fergie',
-        lastName: 'Bananas',
-        email: 'banana@banana.banana',
-        username: 'Bananas4Bananas',
-        hashedPassword: bcrypt.hashSync('password3')
-      }
+    }
     ], { validate: true });
   },
 

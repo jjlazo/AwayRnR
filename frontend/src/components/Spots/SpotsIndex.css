@@ -1,17 +1,18 @@
 #spots {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
-#spot-img {
+.spot-img {
     width: 80%;
 }
 
-#spot-card {
+.spot-card {
     width: 25%;
 }
 
-#spot-deets {
+.spot-deets {
     display: flex;
     width: 25%;
     justify-content: space-between;

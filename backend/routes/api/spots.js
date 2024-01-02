@@ -142,7 +142,7 @@ router.get(
             // console.log({ previewImageUrl });
 
             const starRating = totalStars / totalReviews;
-            spot.avgRating = starRating || 'No rating available';
+            spot.avgRating = totalReviews !== 0 ? starRating.toFixed(1) : 'New';
             spot.previewImage = previewImageUrl;
 
             // console.log({ starRating });
@@ -179,7 +179,7 @@ router.get(
             const previewImageUrl = previewImage ? previewImage.url : 'No preview image available';
 
             const starRating = totalStars / totalReviews;
-            spot.avgRating = starRating;
+            spot.avgRating = totalReviews === 0 ? "New" : starRating.toFixed(1);
             spot.previewImage = previewImageUrl;
 
             delete spot.Reviews;
@@ -216,8 +216,8 @@ router.get('/:spotId', async (req, res) => {
     const totalReviews = payload.Reviews.reduce((acc, review) => { return acc += 1 }, 0);
 
     const starRating = totalStars / totalReviews;
-    payload.avgRating = starRating || 'No rating available';
-    payload.numReviews = totalReviews || "No reviews available"
+    payload.avgRating = totalReviews !== 0 ? starRating.toFixed(1) : 'New';
+    payload.numReviews = totalReviews;
     payload.Owner = payload.User;
 
     delete payload.User;
@@ -245,7 +245,7 @@ const validateSpot = [
     check('lat')
         .exists({ checkFalsy: true })
         .withMessage('Latitude does not exist'),
-        check('lat')
+    check('lat')
         .isFloat({ min: -90, max: 90 })
         .withMessage('Latitude is not valid'),
     check('lng')
@@ -263,6 +263,9 @@ const validateSpot = [
     check('description')
         .exists({ checkFalsy: true })
         .withMessage('Description is required'),
+    check('description')
+        .isLength({ min: 30 })
+        .withMessage("Description needs 30 or more characters"),
     check('price')
         .exists({ checkFalsy: true })
         .isInt({ min: 0 })
@@ -571,7 +574,7 @@ const uniqueReview = async function (req, res, next) {
     });
 
     if (oldie) {
-        return res.status(500).json({ message: "User already has a review for this spot" });
+        return res.status(400).json({ message: "User already has a review for this spot" });
     };
 
     return next();
@@ -608,6 +611,8 @@ router.post(
         });
 
         await newReview.save();
+
+        newReview.dataValues.User = user.dataValues;
 
         return res.json(newReview);
     }

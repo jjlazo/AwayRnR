@@ -1,0 +1,32 @@
+#post-review-button {
+    max-width: fit-content;
+}
+
+#review-list {
+    display: flex;
+    flex-direction: column;
+}
+
+#confirm-delete-modal {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    max-width: 300px;
+}
+
+#confirm-delete-modal>h2 {
+    align-self: center;
+}
+
+#confirm-delete-modal>button {
+    margin: 4px 4px;
+    padding: 4px 4px;
+}
+
+#confirm-delete-button {
+    background-color: red;
+}
+
+#confirm-delete-cancel {
+    background-color: darkgray;
+}
