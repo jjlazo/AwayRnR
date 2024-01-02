@@ -34,9 +34,6 @@ const SpotNew = () => {
 
   }
 
-  const submitDisabled = false;
-  // const submitDisabled = description.length < 30;
-
   return (
     <div id="spot-new">
       <form onSubmit={handleSubmit} id='sn-form'>
@@ -193,7 +190,7 @@ const SpotNew = () => {
           )}
         </div>
 
-        <button id="sn-form-submit" disabled={submitDisabled} type="submit">Create Spot</button>
+        <button id="sn-form-submit" type="submit">Create Spot</button>
       </form>
     </div>
   );
